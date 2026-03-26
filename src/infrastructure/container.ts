@@ -21,6 +21,22 @@ import { RedisSessionCache } from './external/cache/RedisSessionCache'
 import { ConsoleEmailService } from './external/email/ConsoleEmailService'
 import { getEventBus } from '../application/shared/EventBus'
 
+// Authorization framework
+import { DrizzleRoleRepository } from './authz/repositories/DrizzleRoleRepository'
+import { DrizzleUserRoleRepository } from './authz/repositories/DrizzleUserRoleRepository'
+import { DrizzleResourceRelationRepository } from './authz/repositories/DrizzleResourceRelationRepository'
+import { RbacPolicy } from './authz/policies/RbacPolicy'
+import { AbacPolicy } from './authz/policies/AbacPolicy'
+import { PbacPolicy } from './authz/policies/PbacPolicy'
+import { RebacPolicy } from './authz/policies/RebacPolicy'
+import { PolicyDecisionPoint } from './authz/pdp/PolicyDecisionPoint'
+import { PolicyInformationPoint } from './authz/pip/PolicyInformationPoint'
+import { PolicyEnforcementPoint } from './authz/pep/PolicyEnforcementPoint'
+import { PolicyAdministrationPoint } from './authz/pap/PolicyAdministrationPoint'
+import { CheckPermissionUseCase } from '../application/authz/usecases/CheckPermissionUseCase'
+import { AssignRoleUseCase } from '../application/authz/usecases/AssignRoleUseCase'
+import { RevokeRoleUseCase } from '../application/authz/usecases/RevokeRoleUseCase'
+
 import { SignupUseCase } from '../application/auth/signup/SignupUseCase'
 import { LoginUseCase } from '../application/auth/login/LoginUseCase'
 import { LogoutUseCase } from '../application/auth/logout/LogoutUseCase'
@@ -74,6 +90,11 @@ function buildContainer() {
   const oauthAccountRepo = new DrizzleOAuthAccountRepository(db)
   const auditLogRepo = new DrizzleAuditLogRepository(db)
 
+  // Authorization repositories
+  const roleRepo = new DrizzleRoleRepository(db)
+  const userRoleRepo = new DrizzleUserRoleRepository(db)
+  const resourceRelationRepo = new DrizzleResourceRelationRepository(db)
+
   // Services
   const passwordHasher = new Argon2PasswordHasher(buildPeppers())
 
@@ -91,6 +112,44 @@ function buildContainer() {
   })
 
   const sessionCache = new RedisSessionCache(requireEnv('REDIS_URL'))
+
+  // Authorization framework assembly: PAP → PIP → PDP → PEP
+  const pap = new PolicyAdministrationPoint(roleRepo)
+
+  const pip = new PolicyInformationPoint(
+    userRoleRepo,
+    // Thin Redis adapter — PIP only needs get()
+    { get: (key: string) => sessionCache.redisGet(key) },
+  )
+
+  const pdp = new PolicyDecisionPoint([
+    new PbacPolicy(),
+    new AbacPolicy(),
+    new RbacPolicy(roleRepo),
+    new RebacPolicy(resourceRelationRepo),
+  ])
+
+  const authzService = new PolicyEnforcementPoint(pdp, pip)
+
+  // Authorization use cases
+  const checkPermissionUseCase = new CheckPermissionUseCase(
+    userRepo,
+    userRoleRepo,
+    authzService,
+  )
+
+  const assignRoleUseCase = new AssignRoleUseCase(
+    userRepo,
+    roleRepo,
+    userRoleRepo,
+    auditLogRepo,
+  )
+
+  const revokeRoleUseCase = new RevokeRoleUseCase(
+    userRepo,
+    userRoleRepo,
+    auditLogRepo,
+  )
 
   const emailService = new ConsoleEmailService()
   // TODO: swap with SendGridEmailService, SESEmailService, etc.
@@ -229,6 +288,14 @@ function buildContainer() {
     // Repositories (for direct use in special cases)
     userRepo,
     oauthAccountRepo,
+    userRoleRepo,
+    resourceRelationRepo,
+    // Authorization framework
+    authzService,
+    pap,
+    checkPermissionUseCase,
+    assignRoleUseCase,
+    revokeRoleUseCase,
     // Use cases
     signupUseCase,
     loginUseCase,

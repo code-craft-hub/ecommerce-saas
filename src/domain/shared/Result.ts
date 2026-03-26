@@ -78,6 +78,11 @@ export type DomainErrorCode =
   | 'FORBIDDEN'
   | 'INTERNAL_ERROR'
   | 'CSRF_VALIDATION_FAILED'
+  // Authorization framework
+  | 'PERMISSION_DENIED'
+  | 'ROLE_NOT_FOUND'
+  | 'ROLE_ALREADY_ASSIGNED'
+  | 'POLICY_VIOLATION'
 
 export class DomainError extends Error {
   constructor(
@@ -174,5 +179,18 @@ export class DomainError extends Error {
   }
   static csrfValidationFailed(): DomainError {
     return new DomainError('CSRF_VALIDATION_FAILED', 'CSRF validation failed')
+  }
+  static permissionDenied(action?: string, resource?: string): DomainError {
+    const detail = action && resource ? ` (${action} on ${resource})` : ''
+    return new DomainError('PERMISSION_DENIED', `Permission denied${detail}`)
+  }
+  static roleNotFound(role: string): DomainError {
+    return new DomainError('ROLE_NOT_FOUND', `Role not found: ${role}`)
+  }
+  static roleAlreadyAssigned(role: string): DomainError {
+    return new DomainError('ROLE_ALREADY_ASSIGNED', `Role already assigned: ${role}`)
+  }
+  static policyViolation(policy: string, reason: string): DomainError {
+    return new DomainError('POLICY_VIOLATION', `Policy '${policy}' violated: ${reason}`)
   }
 }

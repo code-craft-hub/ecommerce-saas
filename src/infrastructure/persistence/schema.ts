@@ -201,6 +201,107 @@ export const auditLog = pgTable(
 )
 
 // ---------------------------------------------------------------------------
+// Authorization tables
+// ---------------------------------------------------------------------------
+
+/**
+ * Roles — named permission bundles for RBAC.
+ * System roles (user, admin, moderator, service) are seeded at startup.
+ */
+export const roles = pgTable(
+  'roles',
+  {
+    name: varchar('name', { length: 64 }).primaryKey(),
+    displayName: varchar('display_name', { length: 100 }).notNull(),
+    description: text('description').notNull().default(''),
+    /** JSON array of permission strings, e.g. ["user:read:self","session:revoke:self"] */
+    permissions: jsonb('permissions').notNull().default([]),
+    /** System roles cannot be deleted */
+    isSystem: boolean('is_system').notNull().default(false),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+)
+
+/**
+ * User ↔ Role assignment table (RBAC subject assignments).
+ * Supports optional resource-scoped assignments for multi-tenancy.
+ */
+export const userRoles = pgTable(
+  'user_roles',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    roleName: varchar('role_name', { length: 64 })
+      .notNull()
+      .references(() => roles.name, { onDelete: 'cascade' }),
+    assignedBy: uuid('assigned_by').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    /** Scope to a specific resource (e.g. tenant, org) — null = global */
+    resourceId: varchar('resource_id', { length: 255 }),
+    resourceType: varchar('resource_type', { length: 64 }),
+    assignedAt: timestamp('assigned_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('user_roles_user_role_idx').on(t.userId, t.roleName, t.resourceId),
+    index('user_roles_user_id_idx').on(t.userId),
+    index('user_roles_role_name_idx').on(t.roleName),
+  ],
+)
+
+/**
+ * Resource relations for ReBAC (Relationship-Based Access Control).
+ * Stores (subject, relation, object) tuples.
+ * Examples:
+ *   user:alice  owns   post:123
+ *   user:alice  member org:acme
+ */
+export const relationTypeEnum = pgEnum('relation_type', [
+  'owner',
+  'member',
+  'editor',
+  'viewer',
+  'admin',
+])
+
+export const resourceRelations = pgTable(
+  'resource_relations',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    subjectType: varchar('subject_type', { length: 64 }).notNull().default('user'),
+    subjectId: uuid('subject_id').notNull(),
+    relation: relationTypeEnum('relation').notNull(),
+    objectType: varchar('object_type', { length: 64 }).notNull(),
+    objectId: varchar('object_id', { length: 255 }).notNull(),
+    createdBy: uuid('created_by').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+      .notNull()
+      .defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('resource_relations_tuple_idx').on(
+      t.subjectId,
+      t.relation,
+      t.objectType,
+      t.objectId,
+    ),
+    index('resource_relations_subject_idx').on(t.subjectId, t.objectType),
+    index('resource_relations_object_idx').on(t.objectType, t.objectId),
+  ],
+)
+
+// ---------------------------------------------------------------------------
 // Relations (for Drizzle query API)
 // ---------------------------------------------------------------------------
 
@@ -225,4 +326,13 @@ export const oauthAccountsRelations = relations(oauthAccounts, ({ one }) => ({
 
 export const auditLogRelations = relations(auditLog, ({ one }) => ({
   user: one(users, { fields: [auditLog.userId], references: [users.id] }),
+}))
+
+export const userRolesRelations = relations(userRoles, ({ one }) => ({
+  user: one(users, { fields: [userRoles.userId], references: [users.id] }),
+  role: one(roles, { fields: [userRoles.roleName], references: [roles.name] }),
+}))
+
+export const rolesRelations = relations(roles, ({ many }) => ({
+  userRoles: many(userRoles),
 }))

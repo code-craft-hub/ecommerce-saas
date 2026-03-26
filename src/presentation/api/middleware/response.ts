@@ -28,6 +28,10 @@ const ERROR_STATUS_MAP: Record<DomainErrorCode, number> = {
   FORBIDDEN: 403,
   INTERNAL_ERROR: 500,
   CSRF_VALIDATION_FAILED: 403,
+  PERMISSION_DENIED: 403,
+  ROLE_NOT_FOUND: 404,
+  ROLE_ALREADY_ASSIGNED: 409,
+  POLICY_VIOLATION: 403,
 }
 
 export function errorResponse(error: DomainError): Response {

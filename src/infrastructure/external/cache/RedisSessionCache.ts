@@ -105,6 +105,14 @@ export class RedisSessionCache implements ISessionCache {
     await this.client.del(`${VERIFICATION_PREFIX}${key}`)
   }
 
+  /**
+   * Raw key lookup — used by PolicyInformationPoint for IP reputation
+   * and other authz-related cache entries.
+   */
+  async redisGet(key: string): Promise<string | null> {
+    return this.client.get(key)
+  }
+
   async disconnect(): Promise<void> {
     await this.client.quit()
   }
