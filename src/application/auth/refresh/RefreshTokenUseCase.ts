@@ -1,12 +1,12 @@
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, DomainError, err, ok } from '../../../domain/shared/Result'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { IRefreshTokenRepository } from '../../../domain/auth/repositories/IRefreshTokenRepository'
-import type { ITokenGenerationService } from '../../../domain/auth/services/ITokenGenerationService'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
-import { RefreshToken } from '../../../domain/auth/entities/RefreshToken'
-import { hashToken } from '../../../infrastructure/services/tokenUtils'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, DomainError, err, ok } from '@/domain/shared/Result'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
+import type { ITokenGenerationService } from '@/domain/auth/services/ITokenGenerationService'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
+import { RefreshToken } from '@/domain/auth/entities/RefreshToken'
+import { hashToken } from '@/infrastructure/services/tokenUtils'
 
 export const RefreshRequestSchema = z.object({
   refreshToken: z.string().min(1),

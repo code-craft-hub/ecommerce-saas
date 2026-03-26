@@ -1,4 +1,4 @@
-import type { DomainEvent } from '../../domain/shared/DomainEvent'
+import type { DomainEvent } from '@/domain/shared/DomainEvent'
 
 type EventHandler<T extends DomainEvent> = (event: T) => Promise<void>
 

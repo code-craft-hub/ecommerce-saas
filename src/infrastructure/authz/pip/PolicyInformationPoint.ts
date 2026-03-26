@@ -10,8 +10,8 @@
  * The PIP caches aggressively to keep PDP latency under 10ms (from Redis).
  */
 
-import type { IUserRoleRepository } from '../../../domain/authz/repositories/IUserRoleRepository'
-import type { IpReputation } from '../../../domain/authz/value-objects/AuthorizationContext'
+import type { IUserRoleRepository } from '@/domain/authz/repositories/IUserRoleRepository'
+import type { IpReputation } from '@/domain/authz/value-objects/AuthorizationContext'
 
 export interface EnrichedEnvironment {
   ipReputation: IpReputation

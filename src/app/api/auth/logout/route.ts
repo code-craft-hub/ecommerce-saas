@@ -1,15 +1,15 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
+import { getContainer } from '@/infrastructure/container'
 import {
   requireAuth,
   getClientIp,
   getUserAgent,
-} from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/authenticate'
 import {
   errorResponse,
   successResponse,
   clearRefreshTokenCookie,
-} from '../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 
 /**
  * POST /api/auth/logout

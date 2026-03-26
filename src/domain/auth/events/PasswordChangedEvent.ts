@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../shared/DomainEvent'
+import { DomainEvent } from '@/domain/shared/DomainEvent'
 
 export class PasswordChangedEvent extends DomainEvent {
   readonly eventName = 'auth.user.password_changed'

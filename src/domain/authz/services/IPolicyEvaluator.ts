@@ -5,8 +5,8 @@
  * The PolicyDecisionPoint aggregates results from all evaluators.
  */
 
-import type { AuthorizationContext } from '../value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../types/AuthorizationDecision'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
 
 export interface IPolicyEvaluator {
   readonly name: string

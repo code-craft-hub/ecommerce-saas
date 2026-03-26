@@ -11,11 +11,11 @@
  * It never produces Allow on its own — it enforces constraints.
  */
 
-import type { IPolicyEvaluator } from '../../../domain/authz/services/IPolicyEvaluator'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../../../domain/authz/types/AuthorizationDecision'
-import { Deny, NotApplicable } from '../../../domain/authz/types/AuthorizationDecision'
-import { Permission } from '../../../domain/authz/value-objects/Permission'
+import type { IPolicyEvaluator } from '@/domain/authz/services/IPolicyEvaluator'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
+import { Deny, NotApplicable } from '@/domain/authz/types/AuthorizationDecision'
+import { Permission } from '@/domain/authz/value-objects/Permission'
 
 /** Permissions that require email verification before they can be exercised */
 const EMAIL_VERIFICATION_REQUIRED: Permission[] = [

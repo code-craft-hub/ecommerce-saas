@@ -1,4 +1,4 @@
-import { DomainError, type Result, err, ok } from '../../shared/Result'
+import { DomainError, type Result, err, ok } from '@/domain/shared/Result'
 
 /**
  * Email Value Object — RFC 5322 compliant, immutable.

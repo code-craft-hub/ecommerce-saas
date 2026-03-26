@@ -3,7 +3,7 @@
  * Implemented in infrastructure layer by DrizzleRoleRepository.
  */
 
-import type { Role } from '../value-objects/Role'
+import type { Role } from '@/domain/authz/value-objects/Role'
 
 export interface IRoleRepository {
   findByName(name: string): Promise<Role | null>

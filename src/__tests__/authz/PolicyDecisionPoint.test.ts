@@ -1,12 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { PolicyDecisionPoint } from '../../infrastructure/authz/pdp/PolicyDecisionPoint'
-import { RbacPolicy } from '../../infrastructure/authz/policies/RbacPolicy'
-import { AbacPolicy } from '../../infrastructure/authz/policies/AbacPolicy'
-import { PbacPolicy } from '../../infrastructure/authz/policies/PbacPolicy'
-import { AuthorizationContext } from '../../domain/authz/value-objects/AuthorizationContext'
-import { Permission } from '../../domain/authz/value-objects/Permission'
-import type { IRoleRepository } from '../../domain/authz/repositories/IRoleRepository'
-import { Role } from '../../domain/authz/value-objects/Role'
+import { PolicyDecisionPoint } from '@/infrastructure/authz/pdp/PolicyDecisionPoint'
+import { RbacPolicy } from '@/infrastructure/authz/policies/RbacPolicy'
+import { AbacPolicy } from '@/infrastructure/authz/policies/AbacPolicy'
+import { PbacPolicy } from '@/infrastructure/authz/policies/PbacPolicy'
+import { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import { Permission } from '@/domain/authz/value-objects/Permission'
+import type { IRoleRepository } from '@/domain/authz/repositories/IRoleRepository'
+import { Role } from '@/domain/authz/value-objects/Role'
 
 // ---------------------------------------------------------------------------
 // Test doubles

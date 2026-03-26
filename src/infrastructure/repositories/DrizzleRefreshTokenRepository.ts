@@ -1,8 +1,8 @@
 import { eq, and, isNull, lt, count } from 'drizzle-orm'
-import type { DB } from '../persistence/db'
-import { refreshTokens, rotationFamilies } from '../persistence/schema'
-import type { IRefreshTokenRepository } from '../../domain/auth/repositories/IRefreshTokenRepository'
-import { RefreshToken } from '../../domain/auth/entities/RefreshToken'
+import type { DB } from '@/infrastructure/persistence/db'
+import { refreshTokens, rotationFamilies } from '@/infrastructure/persistence/schema'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
+import { RefreshToken } from '@/domain/auth/entities/RefreshToken'
 
 type RefreshTokenRow = typeof refreshTokens.$inferSelect
 

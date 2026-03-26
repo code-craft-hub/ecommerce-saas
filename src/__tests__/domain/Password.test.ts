@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   PlaintextPassword,
   HashedPassword,
-} from '../../domain/auth/value-objects/Password'
+} from '@/domain/auth/value-objects/Password'
 
 describe('PlaintextPassword Value Object', () => {
   const validPassword = 'SecureP@ssw0rd!123'

@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../infrastructure/container'
-import type { AccessTokenClaims } from '../../../domain/auth/services/ITokenGenerationService'
-import { DomainError } from '../../../domain/shared/Result'
+import { getContainer } from '@/infrastructure/container'
+import type { AccessTokenClaims } from '@/domain/auth/services/ITokenGenerationService'
+import { DomainError } from '@/domain/shared/Result'
 
 export interface AuthContext {
   userId: string

@@ -6,12 +6,12 @@
  */
 
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, DomainError, ok, err } from '../../../domain/shared/Result'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { IRoleRepository } from '../../../domain/authz/repositories/IRoleRepository'
-import type { IUserRoleRepository } from '../../../domain/authz/repositories/IUserRoleRepository'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, DomainError, ok, err } from '@/domain/shared/Result'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IRoleRepository } from '@/domain/authz/repositories/IRoleRepository'
+import type { IUserRoleRepository } from '@/domain/authz/repositories/IUserRoleRepository'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
 
 export const AssignRoleRequestSchema = z.object({
   /** User performing the action — must have role:assign */

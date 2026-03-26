@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../shared/DomainEvent'
+import { DomainEvent } from '@/domain/shared/DomainEvent'
 
 export class UserCreatedEvent extends DomainEvent {
   readonly eventName = 'auth.user.created'

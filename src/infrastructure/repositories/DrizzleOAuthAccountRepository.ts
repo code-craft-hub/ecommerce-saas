@@ -1,9 +1,9 @@
 import { eq, and } from 'drizzle-orm'
-import type { DB } from '../persistence/db'
-import { oauthAccounts } from '../persistence/schema'
-import type { IOAuthAccountRepository } from '../../domain/auth/repositories/IOAuthAccountRepository'
-import { OAuthAccount } from '../../domain/auth/entities/OAuthAccount'
-import type { OAuthProvider } from '../../domain/auth/value-objects/OAuthProfile'
+import type { DB } from '@/infrastructure/persistence/db'
+import { oauthAccounts } from '@/infrastructure/persistence/schema'
+import type { IOAuthAccountRepository } from '@/domain/auth/repositories/IOAuthAccountRepository'
+import { OAuthAccount } from '@/domain/auth/entities/OAuthAccount'
+import type { OAuthProvider } from '@/domain/auth/value-objects/OAuthProfile'
 
 type OAuthAccountRow = typeof oauthAccounts.$inferSelect
 

@@ -1,19 +1,19 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
-import { LoginRequestSchema } from '../../../../application/auth/login/LoginUseCase'
+import { getContainer } from '@/infrastructure/container'
+import { LoginRequestSchema } from '@/application/auth/login/LoginUseCase'
 import {
   errorResponse,
   successResponse,
   setRefreshTokenCookie,
-} from '../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 import {
   checkRateLimit,
   rateLimitResponse,
-} from '../../../../presentation/api/middleware/rateLimiter'
+} from '@/presentation/api/middleware/rateLimiter'
 import {
   getClientIp,
   getUserAgent,
-} from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/authenticate'
 
 /**
  * POST /api/auth/login

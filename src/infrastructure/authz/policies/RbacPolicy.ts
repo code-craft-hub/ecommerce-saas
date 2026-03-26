@@ -13,11 +13,11 @@
  * Explicit Deny comes from PBAC/ABAC.
  */
 
-import type { IPolicyEvaluator } from '../../../domain/authz/services/IPolicyEvaluator'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../../../domain/authz/types/AuthorizationDecision'
-import { Allow, NotApplicable } from '../../../domain/authz/types/AuthorizationDecision'
-import type { IRoleRepository } from '../../../domain/authz/repositories/IRoleRepository'
+import type { IPolicyEvaluator } from '@/domain/authz/services/IPolicyEvaluator'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
+import { Allow, NotApplicable } from '@/domain/authz/types/AuthorizationDecision'
+import type { IRoleRepository } from '@/domain/authz/repositories/IRoleRepository'
 
 export class RbacPolicy implements IPolicyEvaluator {
   readonly name = 'RBAC'

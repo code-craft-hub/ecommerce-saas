@@ -1,7 +1,7 @@
 import { importJWK, jwtVerify, createRemoteJWKSet } from 'jose'
-import type { IGoogleOAuthClient, GoogleAuthorizationParams } from '../../domain/auth/services/IGoogleOAuthClient'
-import type { OAuthProfile } from '../../domain/auth/value-objects/OAuthProfile'
-import { OAuthProfile as OAuthProfileVO } from '../../domain/auth/value-objects/OAuthProfile'
+import type { IGoogleOAuthClient, GoogleAuthorizationParams } from '@/domain/auth/services/IGoogleOAuthClient'
+import type { OAuthProfile } from '@/domain/auth/value-objects/OAuthProfile'
+import { OAuthProfile as OAuthProfileVO } from '@/domain/auth/value-objects/OAuthProfile'
 
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'

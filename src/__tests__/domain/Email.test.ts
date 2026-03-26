@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { Email } from '../../domain/auth/value-objects/Email'
+import { Email } from '@/domain/auth/value-objects/Email'
 
 describe('Email Value Object', () => {
   describe('create()', () => {

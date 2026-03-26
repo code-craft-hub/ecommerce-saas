@@ -1,5 +1,5 @@
-import type { HashedPassword } from '../value-objects/Password'
-import type { PlaintextPassword } from '../value-objects/Password'
+import type { HashedPassword } from '@/domain/auth/value-objects/Password'
+import type { PlaintextPassword } from '@/domain/auth/value-objects/Password'
 
 /**
  * Port (interface) for password hashing.

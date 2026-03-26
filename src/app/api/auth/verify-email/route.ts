@@ -1,11 +1,11 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
-import { VerifyEmailRequestSchema } from '../../../../application/auth/verify/VerifyEmailUseCase'
+import { getContainer } from '@/infrastructure/container'
+import { VerifyEmailRequestSchema } from '@/application/auth/verify/VerifyEmailUseCase'
 import {
   errorResponse,
   successResponse,
-} from '../../../../presentation/api/middleware/response'
-import { getClientIp } from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/response'
+import { getClientIp } from '@/presentation/api/middleware/authenticate'
 
 /**
  * GET /api/auth/verify-email?token=...

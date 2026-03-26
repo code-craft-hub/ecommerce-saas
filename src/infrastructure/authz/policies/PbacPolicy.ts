@@ -13,13 +13,13 @@
  * priority order. First explicit Deny wins (deny-overrides within PBAC).
  */
 
-import type { IPolicyEvaluator } from '../../../domain/authz/services/IPolicyEvaluator'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
+import type { IPolicyEvaluator } from '@/domain/authz/services/IPolicyEvaluator'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
 import type {
   AuthorizationDecision,
   DecisionEffect,
-} from '../../../domain/authz/types/AuthorizationDecision'
-import { Allow, Deny, NotApplicable } from '../../../domain/authz/types/AuthorizationDecision'
+} from '@/domain/authz/types/AuthorizationDecision'
+import { Allow, Deny, NotApplicable } from '@/domain/authz/types/AuthorizationDecision'
 
 // ---------------------------------------------------------------------------
 // Policy definition interface

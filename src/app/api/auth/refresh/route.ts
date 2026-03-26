@@ -1,15 +1,15 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
+import { getContainer } from '@/infrastructure/container'
 import {
   errorResponse,
   successResponse,
   setRefreshTokenCookie,
-} from '../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 import {
   checkRateLimit,
   rateLimitResponse,
-} from '../../../../presentation/api/middleware/rateLimiter'
-import { getClientIp } from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/rateLimiter'
+import { getClientIp } from '@/presentation/api/middleware/authenticate'
 
 /**
  * POST /api/auth/refresh

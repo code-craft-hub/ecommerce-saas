@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
-import { User } from '../../domain/auth/entities/User'
-import { Email } from '../../domain/auth/value-objects/Email'
-import { HashedPassword } from '../../domain/auth/value-objects/Password'
-import { UserCreatedEvent } from '../../domain/auth/events/UserCreatedEvent'
-import { PasswordChangedEvent } from '../../domain/auth/events/PasswordChangedEvent'
+import { User } from '@/domain/auth/entities/User'
+import { Email } from '@/domain/auth/value-objects/Email'
+import { HashedPassword } from '@/domain/auth/value-objects/Password'
+import { UserCreatedEvent } from '@/domain/auth/events/UserCreatedEvent'
+import { PasswordChangedEvent } from '@/domain/auth/events/PasswordChangedEvent'
 
 function makeEmail(addr = 'test@example.com') {
   const r = Email.create(addr)

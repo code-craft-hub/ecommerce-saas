@@ -1,4 +1,4 @@
-import { getContainer } from '../../../infrastructure/container'
+import { getContainer } from '@/infrastructure/container'
 
 /**
  * Token-bucket rate limiter backed by Redis.

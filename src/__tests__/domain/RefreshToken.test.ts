@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { RefreshToken } from '../../domain/auth/entities/RefreshToken'
+import { RefreshToken } from '@/domain/auth/entities/RefreshToken'
 
 function makeToken(overrides: Partial<{
   expiresAt: Date

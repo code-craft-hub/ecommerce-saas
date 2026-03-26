@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../shared/DomainEvent'
+import { DomainEvent } from '@/domain/shared/DomainEvent'
 
 export type AuthMethod = 'password' | 'google' | 'github' | 'microsoft'
 

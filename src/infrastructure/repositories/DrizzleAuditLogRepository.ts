@@ -1,12 +1,12 @@
 import { eq, desc } from 'drizzle-orm'
-import type { DB } from '../persistence/db'
-import { auditLog } from '../persistence/schema'
+import type { DB } from '@/infrastructure/persistence/db'
+import { auditLog } from '@/infrastructure/persistence/schema'
 import type {
   IAuditLogRepository,
   AuditLogEntry,
   AuditEventType,
   RiskLevel,
-} from '../../domain/auth/repositories/IAuditLogRepository'
+} from '@/domain/auth/repositories/IAuditLogRepository'
 
 export class DrizzleAuditLogRepository implements IAuditLogRepository {
   constructor(private readonly db: DB) {}

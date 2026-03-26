@@ -1,5 +1,5 @@
-import type { OAuthAccount } from '../entities/OAuthAccount'
-import type { OAuthProvider } from '../value-objects/OAuthProfile'
+import type { OAuthAccount } from '@/domain/auth/entities/OAuthAccount'
+import type { OAuthProvider } from '@/domain/auth/value-objects/OAuthProfile'
 
 export interface IOAuthAccountRepository {
   findByProvider(

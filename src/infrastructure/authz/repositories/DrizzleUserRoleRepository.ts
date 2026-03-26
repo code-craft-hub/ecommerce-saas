@@ -3,12 +3,12 @@
  */
 
 import { and, eq } from 'drizzle-orm'
-import type { DB } from '../../persistence/db'
-import { userRoles as userRolesTable } from '../../persistence/schema'
+import type { DB } from '@/infrastructure/persistence/db'
+import { userRoles as userRolesTable } from '@/infrastructure/persistence/schema'
 import type {
   IUserRoleRepository,
   UserRoleAssignment,
-} from '../../../domain/authz/repositories/IUserRoleRepository'
+} from '@/domain/authz/repositories/IUserRoleRepository'
 
 export class DrizzleUserRoleRepository implements IUserRoleRepository {
   constructor(private readonly db: DB) {}

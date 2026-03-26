@@ -1,6 +1,6 @@
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, ok } from '../../../domain/shared/Result'
-import type { IRefreshTokenRepository } from '../../../domain/auth/repositories/IRefreshTokenRepository'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, ok } from '@/domain/shared/Result'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
 
 export interface ListSessionsRequest {
   userId: string

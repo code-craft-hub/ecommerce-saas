@@ -1,4 +1,4 @@
-import type { OAuthProfile, OAuthProvider } from '../value-objects/OAuthProfile'
+import type { OAuthProfile, OAuthProvider } from '@/domain/auth/value-objects/OAuthProfile'
 
 export interface OAuthAccountProps {
   id: string

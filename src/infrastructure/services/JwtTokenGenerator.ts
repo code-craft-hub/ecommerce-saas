@@ -7,9 +7,9 @@ import {
 // jose v6 uses the Web Crypto API KeyObject — use a broad type for the cache
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type KeyLike = any
-import type { ITokenGenerationService, AccessTokenClaims } from '../../domain/auth/services/ITokenGenerationService'
-import type { TokenPair } from '../../domain/auth/value-objects/TokenPair'
-import { TokenPair as TokenPairVO } from '../../domain/auth/value-objects/TokenPair'
+import type { ITokenGenerationService, AccessTokenClaims } from '@/domain/auth/services/ITokenGenerationService'
+import type { TokenPair } from '@/domain/auth/value-objects/TokenPair'
+import { TokenPair as TokenPairVO } from '@/domain/auth/value-objects/TokenPair'
 import { generateOpaqueToken } from './tokenUtils'
 
 /**

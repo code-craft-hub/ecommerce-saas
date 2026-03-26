@@ -1,11 +1,11 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
-import { ResetPasswordRequestSchema } from '../../../../application/auth/password/ResetPasswordUseCase'
+import { getContainer } from '@/infrastructure/container'
+import { ResetPasswordRequestSchema } from '@/application/auth/password/ResetPasswordUseCase'
 import {
   errorResponse,
   successResponse,
-} from '../../../../presentation/api/middleware/response'
-import { getClientIp } from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/response'
+import { getClientIp } from '@/presentation/api/middleware/authenticate'
 
 /**
  * POST /api/auth/reset-password

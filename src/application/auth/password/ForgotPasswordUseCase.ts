@@ -1,10 +1,10 @@
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, ok } from '../../../domain/shared/Result'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { ITokenGenerationService } from '../../../domain/auth/services/ITokenGenerationService'
-import type { IEmailService } from '../../../domain/auth/services/IEmailService'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, ok } from '@/domain/shared/Result'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { ITokenGenerationService } from '@/domain/auth/services/ITokenGenerationService'
+import type { IEmailService } from '@/domain/auth/services/IEmailService'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
 
 export const ForgotPasswordRequestSchema = z.object({
   email: z.string().min(1).max(254),

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { Permission } from '../../domain/authz/value-objects/Permission'
+import { Permission } from '@/domain/authz/value-objects/Permission'
 
 describe('Permission', () => {
   describe('of()', () => {

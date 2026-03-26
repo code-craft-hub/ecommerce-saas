@@ -1,4 +1,4 @@
-import { DomainError, type DomainErrorCode } from '../../../domain/shared/Result'
+import { DomainError, type DomainErrorCode } from '@/domain/shared/Result'
 
 /**
  * Maps DomainErrorCode to HTTP status codes.

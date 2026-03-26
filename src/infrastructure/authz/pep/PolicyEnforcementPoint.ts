@@ -13,14 +13,14 @@
  * in a Deny decision, never a false Allow.
  */
 
-import type { IAuthorizationService } from '../../../domain/authz/services/IAuthorizationService'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../../../domain/authz/types/AuthorizationDecision'
-import { Deny } from '../../../domain/authz/types/AuthorizationDecision'
-import { type Result, ok, err, DomainError } from '../../../domain/shared/Result'
-import type { PolicyDecisionPoint } from '../pdp/PolicyDecisionPoint'
-import type { PolicyInformationPoint } from '../pip/PolicyInformationPoint'
-import { AuthorizationContext as AC } from '../../../domain/authz/value-objects/AuthorizationContext'
+import type { IAuthorizationService } from '@/domain/authz/services/IAuthorizationService'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
+import { Deny } from '@/domain/authz/types/AuthorizationDecision'
+import { type Result, ok, err, DomainError } from '@/domain/shared/Result'
+import type { PolicyDecisionPoint } from '@/infrastructure/authz/pdp/PolicyDecisionPoint'
+import type { PolicyInformationPoint } from '@/infrastructure/authz/pip/PolicyInformationPoint'
+import { AuthorizationContext as AC } from '@/domain/authz/value-objects/AuthorizationContext'
 
 export class PolicyEnforcementPoint implements IAuthorizationService {
   constructor(

@@ -1,10 +1,10 @@
-import { AggregateRoot } from '../../shared/AggregateRoot'
-import type { Email } from '../value-objects/Email'
-import type { HashedPassword } from '../value-objects/Password'
-import { UserCreatedEvent } from '../events/UserCreatedEvent'
-import { PasswordChangedEvent } from '../events/PasswordChangedEvent'
-import { OAuthLinkedEvent } from '../events/OAuthLinkedEvent'
-import type { OAuthProfile } from '../value-objects/OAuthProfile'
+import { AggregateRoot } from '@/domain/shared/AggregateRoot'
+import type { Email } from '@/domain/auth/value-objects/Email'
+import type { HashedPassword } from '@/domain/auth/value-objects/Password'
+import { UserCreatedEvent } from '@/domain/auth/events/UserCreatedEvent'
+import { PasswordChangedEvent } from '@/domain/auth/events/PasswordChangedEvent'
+import { OAuthLinkedEvent } from '@/domain/auth/events/OAuthLinkedEvent'
+import type { OAuthProfile } from '@/domain/auth/value-objects/OAuthProfile'
 
 export interface UserProps {
   id: string

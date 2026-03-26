@@ -1,10 +1,10 @@
 import { hash, verify } from '@node-rs/argon2'
-import type { IPasswordHashingService } from '../../domain/auth/services/IPasswordHashingService'
+import type { IPasswordHashingService } from '@/domain/auth/services/IPasswordHashingService'
 import type {
   HashedPassword,
   PlaintextPassword,
-} from '../../domain/auth/value-objects/Password'
-import { HashedPassword as HashedPasswordVO } from '../../domain/auth/value-objects/Password'
+} from '@/domain/auth/value-objects/Password'
+import { HashedPassword as HashedPasswordVO } from '@/domain/auth/value-objects/Password'
 
 /**
  * Argon2id password hasher — OWASP PHC winner.

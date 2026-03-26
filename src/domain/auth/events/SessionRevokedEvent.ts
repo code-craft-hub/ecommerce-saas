@@ -1,4 +1,4 @@
-import { DomainEvent } from '../../shared/DomainEvent'
+import { DomainEvent } from '@/domain/shared/DomainEvent'
 
 export class SessionRevokedEvent extends DomainEvent {
   readonly eventName = 'auth.session.revoked'

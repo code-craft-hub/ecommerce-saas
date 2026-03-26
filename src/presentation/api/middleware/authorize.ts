@@ -25,9 +25,9 @@
 import type { NextRequest } from 'next/server'
 import type { AuthContext } from './authenticate'
 import { getClientIp, getUserAgent } from './authenticate'
-import { getContainer } from '../../../infrastructure/container'
-import { Permission } from '../../../domain/authz/value-objects/Permission'
-import { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
+import { getContainer } from '@/infrastructure/container'
+import { Permission } from '@/domain/authz/value-objects/Permission'
+import { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
 
 export type { Permission }
 

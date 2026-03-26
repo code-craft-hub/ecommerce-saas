@@ -10,9 +10,9 @@
  * It enforces invariants: system roles cannot be modified or deleted.
  */
 
-import type { IRoleRepository } from '../../../domain/authz/repositories/IRoleRepository'
-import { Role } from '../../../domain/authz/value-objects/Role'
-import { Permission } from '../../../domain/authz/value-objects/Permission'
+import type { IRoleRepository } from '@/domain/authz/repositories/IRoleRepository'
+import { Role } from '@/domain/authz/value-objects/Role'
+import { Permission } from '@/domain/authz/value-objects/Permission'
 
 export interface CreateRoleParams {
   name: string

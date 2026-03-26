@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ok, err, Ok, Err, DomainError } from '../../domain/shared/Result'
+import { ok, err, Ok, Err, DomainError } from '@/domain/shared/Result'
 
 describe('Result monad', () => {
   describe('Ok', () => {

@@ -1,13 +1,13 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../../infrastructure/container'
+import { getContainer } from '@/infrastructure/container'
 import {
   errorResponse,
   setRefreshTokenCookie,
-} from '../../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 import {
   getClientIp,
   getUserAgent,
-} from '../../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/authenticate'
 
 /**
  * GET /api/auth/google/callback

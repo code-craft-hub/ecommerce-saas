@@ -4,13 +4,13 @@
 
 import { and, eq } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
-import type { DB } from '../../persistence/db'
-import { resourceRelations as relTable } from '../../persistence/schema'
+import type { DB } from '@/infrastructure/persistence/db'
+import { resourceRelations as relTable } from '@/infrastructure/persistence/schema'
 import type {
   IResourceRelationRepository,
   RelationType,
   ResourceRelation,
-} from '../../../domain/authz/repositories/IResourceRelationRepository'
+} from '@/domain/authz/repositories/IResourceRelationRepository'
 
 export class DrizzleResourceRelationRepository
   implements IResourceRelationRepository

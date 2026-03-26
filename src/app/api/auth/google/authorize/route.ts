@@ -1,8 +1,8 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../../infrastructure/container'
-import { GoogleOAuthClient } from '../../../../../infrastructure/services/GoogleOAuthClient'
-import { checkRateLimit, rateLimitResponse } from '../../../../../presentation/api/middleware/rateLimiter'
-import { getClientIp } from '../../../../../presentation/api/middleware/authenticate'
+import { getContainer } from '@/infrastructure/container'
+import { GoogleOAuthClient } from '@/infrastructure/services/GoogleOAuthClient'
+import { checkRateLimit, rateLimitResponse } from '@/presentation/api/middleware/rateLimiter'
+import { getClientIp } from '@/presentation/api/middleware/authenticate'
 
 /**
  * GET /api/auth/google/authorize

@@ -1,12 +1,12 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
+import { getContainer } from '@/infrastructure/container'
 import {
   requireAuth,
-} from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/authenticate'
 import {
   errorResponse,
   successResponse,
-} from '../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 
 /**
  * GET /api/auth/sessions

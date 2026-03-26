@@ -3,10 +3,10 @@
  */
 
 import { eq } from 'drizzle-orm'
-import type { DB } from '../../persistence/db'
-import { roles as rolesTable } from '../../persistence/schema'
-import type { IRoleRepository } from '../../../domain/authz/repositories/IRoleRepository'
-import { Role } from '../../../domain/authz/value-objects/Role'
+import type { DB } from '@/infrastructure/persistence/db'
+import { roles as rolesTable } from '@/infrastructure/persistence/schema'
+import type { IRoleRepository } from '@/domain/authz/repositories/IRoleRepository'
+import { Role } from '@/domain/authz/value-objects/Role'
 
 export class DrizzleRoleRepository implements IRoleRepository {
   constructor(private readonly db: DB) {}

@@ -1,4 +1,4 @@
-import { DomainError, type Result, err, ok } from '../../shared/Result'
+import { DomainError, type Result, err, ok } from '@/domain/shared/Result'
 
 /**
  * Password Value Object — OWASP-compliant strength validation.

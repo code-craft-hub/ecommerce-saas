@@ -1,16 +1,16 @@
 import type { NextRequest } from 'next/server'
-import { getContainer } from '../../../../infrastructure/container'
-import { ChangePasswordRequestSchema } from '../../../../application/auth/password/ChangePasswordUseCase'
+import { getContainer } from '@/infrastructure/container'
+import { ChangePasswordRequestSchema } from '@/application/auth/password/ChangePasswordUseCase'
 import {
   requireAuth,
   getClientIp,
   getUserAgent,
-} from '../../../../presentation/api/middleware/authenticate'
+} from '@/presentation/api/middleware/authenticate'
 import {
   errorResponse,
   successResponse,
   clearRefreshTokenCookie,
-} from '../../../../presentation/api/middleware/response'
+} from '@/presentation/api/middleware/response'
 
 /**
  * POST /api/auth/change-password

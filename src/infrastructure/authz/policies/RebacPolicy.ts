@@ -16,12 +16,12 @@
  * ReBAC is most useful for resource-specific grants below role level.
  */
 
-import type { IPolicyEvaluator } from '../../../domain/authz/services/IPolicyEvaluator'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../../../domain/authz/types/AuthorizationDecision'
-import { Allow, NotApplicable } from '../../../domain/authz/types/AuthorizationDecision'
-import type { IResourceRelationRepository } from '../../../domain/authz/repositories/IResourceRelationRepository'
-import type { RelationType } from '../../../domain/authz/repositories/IResourceRelationRepository'
+import type { IPolicyEvaluator } from '@/domain/authz/services/IPolicyEvaluator'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
+import { Allow, NotApplicable } from '@/domain/authz/types/AuthorizationDecision'
+import type { IResourceRelationRepository } from '@/domain/authz/repositories/IResourceRelationRepository'
+import type { RelationType } from '@/domain/authz/repositories/IResourceRelationRepository'
 
 /**
  * Maps a requested action+scope to the minimum ReBAC relation required.

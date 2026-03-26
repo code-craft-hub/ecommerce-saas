@@ -1,4 +1,4 @@
-import type { OAuthProfile } from '../value-objects/OAuthProfile'
+import type { OAuthProfile } from '@/domain/auth/value-objects/OAuthProfile'
 
 export interface GoogleAuthorizationParams {
   redirectUri: string

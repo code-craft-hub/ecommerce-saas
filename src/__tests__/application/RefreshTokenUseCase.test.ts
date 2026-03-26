@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { RefreshTokenUseCase } from '../../application/auth/refresh/RefreshTokenUseCase'
-import { RefreshToken } from '../../domain/auth/entities/RefreshToken'
-import { User } from '../../domain/auth/entities/User'
-import { Email } from '../../domain/auth/value-objects/Email'
-import { TokenPair } from '../../domain/auth/value-objects/TokenPair'
-import { hashToken } from '../../infrastructure/services/tokenUtils'
+import { RefreshTokenUseCase } from '@/application/auth/refresh/RefreshTokenUseCase'
+import { RefreshToken } from '@/domain/auth/entities/RefreshToken'
+import { User } from '@/domain/auth/entities/User'
+import { Email } from '@/domain/auth/value-objects/Email'
+import { TokenPair } from '@/domain/auth/value-objects/TokenPair'
+import { hashToken } from '@/infrastructure/services/tokenUtils'
 
 // Re-use fakes from SignupUseCase test (simplified inline versions)
 class FakeUserRepo {

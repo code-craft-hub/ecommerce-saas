@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-import type { ISessionCache } from '../../../domain/auth/services/ISessionCache'
+import type { ISessionCache } from '@/domain/auth/services/ISessionCache'
 
 const DENYLIST_PREFIX = 'denylist:'
 const SESSION_PREFIX = 'session:'

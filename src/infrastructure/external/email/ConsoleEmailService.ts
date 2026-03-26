@@ -1,4 +1,4 @@
-import type { IEmailService } from '../../../domain/auth/services/IEmailService'
+import type { IEmailService } from '@/domain/auth/services/IEmailService'
 
 /**
  * Console email service for development / testing.

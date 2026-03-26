@@ -6,10 +6,10 @@
  * Domain and application layers depend only on this interface.
  */
 
-import type { Result } from '../../shared/Result'
-import type { DomainError } from '../../shared/Result'
-import type { AuthorizationContext } from '../value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../types/AuthorizationDecision'
+import type { Result } from '@/domain/shared/Result'
+import type { DomainError } from '@/domain/shared/Result'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
 
 export interface IAuthorizationService {
   /**

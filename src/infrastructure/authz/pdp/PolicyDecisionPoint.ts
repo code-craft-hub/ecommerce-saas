@@ -18,10 +18,10 @@
  * All state is fetched by evaluators from their respective repositories.
  */
 
-import type { IPolicyEvaluator } from '../../../domain/authz/services/IPolicyEvaluator'
-import type { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { AuthorizationDecision } from '../../../domain/authz/types/AuthorizationDecision'
-import { Allow, Deny } from '../../../domain/authz/types/AuthorizationDecision'
+import type { IPolicyEvaluator } from '@/domain/authz/services/IPolicyEvaluator'
+import type { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { AuthorizationDecision } from '@/domain/authz/types/AuthorizationDecision'
+import { Allow, Deny } from '@/domain/authz/types/AuthorizationDecision'
 
 export type CombiningAlgorithm = 'deny-overrides' | 'permit-overrides' | 'first-applicable'
 

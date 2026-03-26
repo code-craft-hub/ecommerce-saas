@@ -6,11 +6,11 @@
  */
 
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, DomainError, ok, err } from '../../../domain/shared/Result'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { IUserRoleRepository } from '../../../domain/authz/repositories/IUserRoleRepository'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, DomainError, ok, err } from '@/domain/shared/Result'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IUserRoleRepository } from '@/domain/authz/repositories/IUserRoleRepository'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
 
 export const RevokeRoleRequestSchema = z.object({
   actorId: z.string().uuid(),

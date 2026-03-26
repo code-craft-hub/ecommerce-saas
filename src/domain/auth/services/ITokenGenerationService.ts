@@ -1,4 +1,4 @@
-import type { TokenPair } from '../value-objects/TokenPair'
+import type { TokenPair } from '@/domain/auth/value-objects/TokenPair'
 
 export interface AccessTokenClaims {
   /** Subject — user ID */

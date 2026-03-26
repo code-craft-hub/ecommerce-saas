@@ -1,10 +1,10 @@
 import { eq, isNull } from 'drizzle-orm'
-import type { DB } from '../persistence/db'
-import { users } from '../persistence/schema'
-import type { IUserRepository } from '../../domain/auth/repositories/IUserRepository'
-import { User } from '../../domain/auth/entities/User'
-import { Email } from '../../domain/auth/value-objects/Email'
-import { HashedPassword } from '../../domain/auth/value-objects/Password'
+import type { DB } from '@/infrastructure/persistence/db'
+import { users } from '@/infrastructure/persistence/schema'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import { User } from '@/domain/auth/entities/User'
+import { Email } from '@/domain/auth/value-objects/Email'
+import { HashedPassword } from '@/domain/auth/value-objects/Password'
 
 type UserRow = typeof users.$inferSelect
 

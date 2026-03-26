@@ -16,13 +16,13 @@
  */
 
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, DomainError, ok, err } from '../../../domain/shared/Result'
-import { Permission } from '../../../domain/authz/value-objects/Permission'
-import { AuthorizationContext } from '../../../domain/authz/value-objects/AuthorizationContext'
-import type { IAuthorizationService } from '../../../domain/authz/services/IAuthorizationService'
-import type { IUserRoleRepository } from '../../../domain/authz/repositories/IUserRoleRepository'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, DomainError, ok, err } from '@/domain/shared/Result'
+import { Permission } from '@/domain/authz/value-objects/Permission'
+import { AuthorizationContext } from '@/domain/authz/value-objects/AuthorizationContext'
+import type { IAuthorizationService } from '@/domain/authz/services/IAuthorizationService'
+import type { IUserRoleRepository } from '@/domain/authz/repositories/IUserRoleRepository'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
 
 export const CheckPermissionRequestSchema = z.object({
   userId: z.string().uuid(),

@@ -1,24 +1,24 @@
 import { z } from 'zod'
-import type { IUseCase } from '../../../domain/shared/IUseCase'
+import type { IUseCase } from '@/domain/shared/IUseCase'
 import {
   type Result,
   DomainError,
   err,
   ok,
-} from '../../../domain/shared/Result'
-import { Email } from '../../../domain/auth/value-objects/Email'
-import { PlaintextPassword } from '../../../domain/auth/value-objects/Password'
-import { User } from '../../../domain/auth/entities/User'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { IRefreshTokenRepository } from '../../../domain/auth/repositories/IRefreshTokenRepository'
-import type { IPasswordHashingService } from '../../../domain/auth/services/IPasswordHashingService'
-import type { ITokenGenerationService } from '../../../domain/auth/services/ITokenGenerationService'
-import type { ISessionCache } from '../../../domain/auth/services/ISessionCache'
-import type { IEmailService } from '../../../domain/auth/services/IEmailService'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
-import type { EventBus } from '../../shared/EventBus'
-import { RefreshToken } from '../../../domain/auth/entities/RefreshToken'
-import { hashToken } from '../../../infrastructure/services/tokenUtils'
+} from '@/domain/shared/Result'
+import { Email } from '@/domain/auth/value-objects/Email'
+import { PlaintextPassword } from '@/domain/auth/value-objects/Password'
+import { User } from '@/domain/auth/entities/User'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
+import type { IPasswordHashingService } from '@/domain/auth/services/IPasswordHashingService'
+import type { ITokenGenerationService } from '@/domain/auth/services/ITokenGenerationService'
+import type { ISessionCache } from '@/domain/auth/services/ISessionCache'
+import type { IEmailService } from '@/domain/auth/services/IEmailService'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
+import type { EventBus } from '@/application/shared/EventBus'
+import { RefreshToken } from '@/domain/auth/entities/RefreshToken'
+import { hashToken } from '@/infrastructure/services/tokenUtils'
 
 // ---------------------------------------------------------------------------
 // Input DTO with Zod validation

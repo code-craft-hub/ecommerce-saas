@@ -1,13 +1,13 @@
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, DomainError, err, ok } from '../../../domain/shared/Result'
-import { OAuthAccount } from '../../../domain/auth/entities/OAuthAccount'
-import type { IUserRepository } from '../../../domain/auth/repositories/IUserRepository'
-import type { IOAuthAccountRepository } from '../../../domain/auth/repositories/IOAuthAccountRepository'
-import type { IGoogleOAuthClient } from '../../../domain/auth/services/IGoogleOAuthClient'
-import type { ISessionCache } from '../../../domain/auth/services/ISessionCache'
-import type { IEmailService } from '../../../domain/auth/services/IEmailService'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
-import type { EventBus } from '../../shared/EventBus'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, DomainError, err, ok } from '@/domain/shared/Result'
+import { OAuthAccount } from '@/domain/auth/entities/OAuthAccount'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IOAuthAccountRepository } from '@/domain/auth/repositories/IOAuthAccountRepository'
+import type { IGoogleOAuthClient } from '@/domain/auth/services/IGoogleOAuthClient'
+import type { ISessionCache } from '@/domain/auth/services/ISessionCache'
+import type { IEmailService } from '@/domain/auth/services/IEmailService'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
+import type { EventBus } from '@/application/shared/EventBus'
 
 export interface LinkOAuthAccountRequest {
   userId: string

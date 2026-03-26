@@ -3,7 +3,7 @@ import {
   hashToken,
   generateOpaqueToken,
   timingSafeEqual,
-} from '../../infrastructure/services/tokenUtils'
+} from '@/infrastructure/services/tokenUtils'
 
 describe('tokenUtils', () => {
   describe('hashToken()', () => {

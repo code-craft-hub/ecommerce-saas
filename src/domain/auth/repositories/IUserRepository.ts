@@ -1,4 +1,4 @@
-import type { User } from '../entities/User'
+import type { User } from '@/domain/auth/entities/User'
 
 export interface IUserRepository {
   findById(id: string): Promise<User | null>

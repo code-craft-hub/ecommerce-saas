@@ -1,22 +1,22 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { SignupUseCase } from '../../application/auth/signup/SignupUseCase'
-import type { IUserRepository } from '../../domain/auth/repositories/IUserRepository'
-import type { IRefreshTokenRepository } from '../../domain/auth/repositories/IRefreshTokenRepository'
-import type { IPasswordHashingService } from '../../domain/auth/services/IPasswordHashingService'
-import type { ITokenGenerationService } from '../../domain/auth/services/ITokenGenerationService'
-import type { ISessionCache } from '../../domain/auth/services/ISessionCache'
-import type { IEmailService } from '../../domain/auth/services/IEmailService'
-import type { IAuditLogRepository } from '../../domain/auth/repositories/IAuditLogRepository'
-import { EventBus } from '../../application/shared/EventBus'
-import { HashedPassword } from '../../domain/auth/value-objects/Password'
-import { TokenPair } from '../../domain/auth/value-objects/TokenPair'
+import { SignupUseCase } from '@/application/auth/signup/SignupUseCase'
+import type { IUserRepository } from '@/domain/auth/repositories/IUserRepository'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
+import type { IPasswordHashingService } from '@/domain/auth/services/IPasswordHashingService'
+import type { ITokenGenerationService } from '@/domain/auth/services/ITokenGenerationService'
+import type { ISessionCache } from '@/domain/auth/services/ISessionCache'
+import type { IEmailService } from '@/domain/auth/services/IEmailService'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
+import { EventBus } from '@/application/shared/EventBus'
+import { HashedPassword } from '@/domain/auth/value-objects/Password'
+import { TokenPair } from '@/domain/auth/value-objects/TokenPair'
 
 // ---------------------------------------------------------------------------
 // Minimal in-memory fakes (no mocks — pure test doubles)
 // ---------------------------------------------------------------------------
 
 class InMemoryUserRepository implements IUserRepository {
-  users = new Map<string, import('../../domain/auth/entities/User').User>()
+  users = new Map<string, import('@/domain/auth/entities/User').User>()
 
   async findById(id: string) {
     return this.users.get(id) ?? null
@@ -27,10 +27,10 @@ class InMemoryUserRepository implements IUserRepository {
     }
     return null
   }
-  async save(user: import('../../domain/auth/entities/User').User) {
+  async save(user: import('@/domain/auth/entities/User').User) {
     this.users.set(user.id, user)
   }
-  async update(user: import('../../domain/auth/entities/User').User) {
+  async update(user: import('@/domain/auth/entities/User').User) {
     this.users.set(user.id, user)
   }
   async delete(id: string) {
@@ -39,7 +39,7 @@ class InMemoryUserRepository implements IUserRepository {
 }
 
 class InMemoryRefreshTokenRepository implements IRefreshTokenRepository {
-  tokens = new Map<string, import('../../domain/auth/entities/RefreshToken').RefreshToken>()
+  tokens = new Map<string, import('@/domain/auth/entities/RefreshToken').RefreshToken>()
 
   async findByHash(hash: string) {
     for (const t of this.tokens.values()) {
@@ -51,10 +51,10 @@ class InMemoryRefreshTokenRepository implements IRefreshTokenRepository {
   async findActiveByUserId(userId: string) {
     return Array.from(this.tokens.values()).filter((t) => t.userId === userId && t.isValid)
   }
-  async save(token: import('../../domain/auth/entities/RefreshToken').RefreshToken) {
+  async save(token: import('@/domain/auth/entities/RefreshToken').RefreshToken) {
     this.tokens.set(token.id, token)
   }
-  async update(token: import('../../domain/auth/entities/RefreshToken').RefreshToken) {
+  async update(token: import('@/domain/auth/entities/RefreshToken').RefreshToken) {
     this.tokens.set(token.id, token)
   }
   async revokeAllForUser(userId: string) {
@@ -77,10 +77,10 @@ class InMemoryRefreshTokenRepository implements IRefreshTokenRepository {
 
 class FakePasswordHasher implements IPasswordHashingService {
   currentPepperVersion = 1
-  async hash(_pw: import('../../domain/auth/value-objects/Password').PlaintextPassword) {
+  async hash(_pw: import('@/domain/auth/value-objects/Password').PlaintextPassword) {
     return HashedPassword.fromHash('$argon2id$fake')
   }
-  async verify(_pw: import('../../domain/auth/value-objects/Password').PlaintextPassword, _hash: import('../../domain/auth/value-objects/Password').HashedPassword) {
+  async verify(_pw: import('@/domain/auth/value-objects/Password').PlaintextPassword, _hash: import('@/domain/auth/value-objects/Password').HashedPassword) {
     return true
   }
 }
@@ -95,7 +95,7 @@ class FakeTokenService implements ITokenGenerationService {
       { jti: crypto.randomUUID(), issuedAt: now, expiresAt: now + 2592000, rotationFamilyId: params.rotationFamilyId },
     )
   }
-  async verifyAccessToken(_token: string): Promise<import('../../domain/auth/services/ITokenGenerationService').AccessTokenClaims> {
+  async verifyAccessToken(_token: string): Promise<import('@/domain/auth/services/ITokenGenerationService').AccessTokenClaims> {
     throw new Error('not implemented')
   }
   async generateVerificationToken(_payload: { userId: string; email: string; purpose: 'email_verification' | 'password_reset' }) {

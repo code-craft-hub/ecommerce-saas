@@ -1,9 +1,9 @@
-import type { IUseCase } from '../../../domain/shared/IUseCase'
-import { type Result, ok } from '../../../domain/shared/Result'
-import type { IRefreshTokenRepository } from '../../../domain/auth/repositories/IRefreshTokenRepository'
-import type { ISessionCache } from '../../../domain/auth/services/ISessionCache'
-import type { IAuditLogRepository } from '../../../domain/auth/repositories/IAuditLogRepository'
-import { hashToken } from '../../../infrastructure/services/tokenUtils'
+import type { IUseCase } from '@/domain/shared/IUseCase'
+import { type Result, ok } from '@/domain/shared/Result'
+import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
+import type { ISessionCache } from '@/domain/auth/services/ISessionCache'
+import type { IAuditLogRepository } from '@/domain/auth/repositories/IAuditLogRepository'
+import { hashToken } from '@/infrastructure/services/tokenUtils'
 
 export interface LogoutRequest {
   userId: string

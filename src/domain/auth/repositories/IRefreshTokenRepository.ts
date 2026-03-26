@@ -1,4 +1,4 @@
-import type { RefreshToken } from '../entities/RefreshToken'
+import type { RefreshToken } from '@/domain/auth/entities/RefreshToken'
 
 export interface IRefreshTokenRepository {
   findByHash(tokenHash: string): Promise<RefreshToken | null>
