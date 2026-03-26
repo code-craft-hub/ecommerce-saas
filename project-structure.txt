@@ -1,0 +1,162 @@
+├── .env.example
+├── .gitignore
+├── AGENTS.md
+├── CLAUDE.md
+├── drizzle.config.ts
+├── eslint.config.mjs
+├── next-env.d.ts
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.mjs
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── scripts
+│   └── tree.js
+├── src
+│   ├── __tests__
+│   │   ├── application
+│   │   │   ├── RefreshTokenUseCase.test.ts
+│   │   │   └── SignupUseCase.test.ts
+│   │   ├── domain
+│   │   │   ├── Email.test.ts
+│   │   │   ├── Password.test.ts
+│   │   │   ├── RefreshToken.test.ts
+│   │   │   ├── Result.test.ts
+│   │   │   └── User.test.ts
+│   │   └── infrastructure
+│   │       └── tokenUtils.test.ts
+│   ├── app
+│   │   ├── api
+│   │   │   └── auth
+│   │   │       ├── change-password
+│   │   │       │   └── route.ts
+│   │   │       ├── forgot-password
+│   │   │       │   └── route.ts
+│   │   │       ├── google
+│   │   │       │   ├── authorize
+│   │   │       │   │   └── route.ts
+│   │   │       │   ├── callback
+│   │   │       │   │   └── route.ts
+│   │   │       │   └── link
+│   │   │       │       └── route.ts
+│   │   │       ├── login
+│   │   │       │   └── route.ts
+│   │   │       ├── logout
+│   │   │       │   └── route.ts
+│   │   │       ├── logout-all
+│   │   │       │   └── route.ts
+│   │   │       ├── me
+│   │   │       │   └── route.ts
+│   │   │       ├── refresh
+│   │   │       │   └── route.ts
+│   │   │       ├── reset-password
+│   │   │       │   └── route.ts
+│   │   │       ├── sessions
+│   │   │       │   ├── [sessionId]
+│   │   │       │   │   └── route.ts
+│   │   │       │   └── route.ts
+│   │   │       ├── set-password
+│   │   │       │   └── route.ts
+│   │   │       ├── signup
+│   │   │       │   └── route.ts
+│   │   │       └── verify-email
+│   │   │           └── route.ts
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── application
+│   │   ├── auth
+│   │   │   ├── login
+│   │   │   │   └── LoginUseCase.ts
+│   │   │   ├── logout
+│   │   │   │   └── LogoutUseCase.ts
+│   │   │   ├── oauth
+│   │   │   │   ├── GoogleOAuthUseCase.ts
+│   │   │   │   └── LinkOAuthAccountUseCase.ts
+│   │   │   ├── password
+│   │   │   │   ├── ChangePasswordUseCase.ts
+│   │   │   │   ├── ForgotPasswordUseCase.ts
+│   │   │   │   ├── ResetPasswordUseCase.ts
+│   │   │   │   └── SetPasswordUseCase.ts
+│   │   │   ├── refresh
+│   │   │   │   └── RefreshTokenUseCase.ts
+│   │   │   ├── session
+│   │   │   │   ├── ListSessionsUseCase.ts
+│   │   │   │   ├── LogoutAllUseCase.ts
+│   │   │   │   └── RevokeSessionUseCase.ts
+│   │   │   ├── signup
+│   │   │   │   └── SignupUseCase.ts
+│   │   │   └── verify
+│   │   │       └── VerifyEmailUseCase.ts
+│   │   └── shared
+│   │       └── EventBus.ts
+│   ├── domain
+│   │   ├── auth
+│   │   │   ├── entities
+│   │   │   │   ├── OAuthAccount.ts
+│   │   │   │   ├── RefreshToken.ts
+│   │   │   │   └── User.ts
+│   │   │   ├── events
+│   │   │   │   ├── OAuthLinkedEvent.ts
+│   │   │   │   ├── PasswordChangedEvent.ts
+│   │   │   │   ├── SessionRevokedEvent.ts
+│   │   │   │   ├── UserAuthenticatedEvent.ts
+│   │   │   │   └── UserCreatedEvent.ts
+│   │   │   ├── repositories
+│   │   │   │   ├── IAuditLogRepository.ts
+│   │   │   │   ├── IOAuthAccountRepository.ts
+│   │   │   │   ├── IRefreshTokenRepository.ts
+│   │   │   │   └── IUserRepository.ts
+│   │   │   ├── services
+│   │   │   │   ├── IEmailService.ts
+│   │   │   │   ├── IGoogleOAuthClient.ts
+│   │   │   │   ├── IPasswordHashingService.ts
+│   │   │   │   ├── ISessionCache.ts
+│   │   │   │   └── ITokenGenerationService.ts
+│   │   │   └── value-objects
+│   │   │       ├── Email.ts
+│   │   │       ├── OAuthProfile.ts
+│   │   │       ├── Password.ts
+│   │   │       └── TokenPair.ts
+│   │   └── shared
+│   │       ├── AggregateRoot.ts
+│   │       ├── DomainEvent.ts
+│   │       ├── IUseCase.ts
+│   │       └── Result.ts
+│   ├── infrastructure
+│   │   ├── container.ts
+│   │   ├── external
+│   │   │   ├── cache
+│   │   │   │   └── RedisSessionCache.ts
+│   │   │   └── email
+│   │   │       └── ConsoleEmailService.ts
+│   │   ├── persistence
+│   │   │   ├── db.ts
+│   │   │   └── schema.ts
+│   │   ├── repositories
+│   │   │   ├── DrizzleAuditLogRepository.ts
+│   │   │   ├── DrizzleOAuthAccountRepository.ts
+│   │   │   ├── DrizzleRefreshTokenRepository.ts
+│   │   │   └── DrizzleUserRepository.ts
+│   │   └── services
+│   │       ├── Argon2PasswordHasher.ts
+│   │       ├── GoogleOAuthClient.ts
+│   │       ├── JwtTokenGenerator.ts
+│   │       └── tokenUtils.ts
+│   └── presentation
+│       └── api
+│           └── middleware
+│               ├── authenticate.ts
+│               ├── rateLimiter.ts
+│               └── response.ts
+├── tsconfig.json
+├── tsconfig.tsbuildinfo
+└── vitest.config.ts
