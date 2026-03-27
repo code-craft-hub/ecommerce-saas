@@ -1,8 +1,8 @@
 import type { NextRequest } from 'next/server'
 import { getContainer } from '@/infrastructure/container'
 import {
-  errorResponse,
   setRefreshTokenCookie,
+  setAccessTokenCookie,
 } from '@/presentation/api/middleware/response'
 import {
   getClientIp,
@@ -11,8 +11,14 @@ import {
 
 /**
  * GET /api/auth/google/callback
- * OAuth 2.0 callback from Google.
- * Handles: new users, existing users, account linking suggestions.
+ * OAuth 2.0 + PKCE callback from Google.
+ *
+ * Security:
+ * - State is verified + consumed atomically (prevents CSRF replay)
+ * - PKCE verifier is retrieved from stored state + sent to Google (prevents
+ *   authorization-code injection — RFC 9700 §4.5)
+ * - Both tokens are set as httpOnly cookies — NOT in the URL or fragment.
+ *   URL fragments leak via browser history, JS access, and referrer headers.
  */
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
@@ -23,7 +29,6 @@ export async function GET(req: NextRequest) {
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
 
-  // Google returned an error (user denied consent, etc.)
   if (error) {
     return Response.redirect(
       `${baseUrl}/login?error=${encodeURIComponent(error)}`,
@@ -55,29 +60,22 @@ export async function GET(req: NextRequest) {
   const oauthResult = result.value
 
   if (oauthResult.type === 'link_required') {
-    // Redirect to link page — user needs to authenticate existing account
     return Response.redirect(
       `${baseUrl}/link-account?email=${encodeURIComponent(oauthResult.email)}`,
     )
   }
 
-  // Authenticated — set cookie and redirect to dashboard
   const { accessToken, refreshToken } = oauthResult
 
-  // We need to redirect browser but also set the cookie and token
-  // Strategy: redirect to a page that picks up the access token from the URL
-  // For security, we use a short-lived state token approach
-  // Better: set cookie first, then redirect
-  const rtExpiry = new Date(
-    Date.now() +
-      Number(process.env.REFRESH_TOKEN_EXPIRY_DAYS ?? 30) * 86_400_000,
-  )
+  const rtExpiryDays = Number(process.env.REFRESH_TOKEN_EXPIRY_DAYS ?? 30)
+  const atExpirySeconds = Number(process.env.ACCESS_TOKEN_EXPIRY_SECONDS ?? 900)
 
-  // Build redirect with access token in URL fragment (not query string — not logged by server)
-  // The fragment is never sent to the server, so it's safe
-  const redirectResponse = Response.redirect(
-    `${baseUrl}/dashboard#at=${encodeURIComponent(accessToken)}`,
-    302,
-  )
-  return setRefreshTokenCookie(redirectResponse, refreshToken, rtExpiry)
+  const rtExpiry = new Date(Date.now() + rtExpiryDays * 86_400_000)
+  const atExpiry = new Date(Date.now() + atExpirySeconds * 1000)
+
+  // Set both tokens as httpOnly cookies — tokens never touch the URL
+  let response = Response.redirect(`${baseUrl}/dashboard`, 302)
+  response = setRefreshTokenCookie(response, refreshToken, rtExpiry)
+  response = setAccessTokenCookie(response, accessToken, atExpiry)
+  return response
 }

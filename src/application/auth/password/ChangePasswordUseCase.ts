@@ -78,6 +78,12 @@ export class ChangePasswordUseCase
     user.changePassword(newHash, currentPepperVersion)
     await this.userRepo.update(user)
 
+    // Cache the new minimum valid version so the authenticate middleware can
+    // reject in-flight access tokens from other sessions immediately, without
+    // waiting for the 15-minute natural expiry.
+    const atTtlSeconds = Number(process.env.ACCESS_TOKEN_EXPIRY_SECONDS ?? 900)
+    await this.sessionCache.setMinTokenVersion(user.id, user.tokenVersion, atTtlSeconds)
+
     // Revoke all refresh tokens
     await this.refreshTokenRepo.revokeAllForUser(user.id)
     await this.sessionCache.clearUserSessions(user.id)

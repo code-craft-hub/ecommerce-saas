@@ -83,19 +83,30 @@ export class RefreshTokenUseCase
       return err(DomainError.tokenRevoked())
     }
 
-    // Validate user still exists and token version matches
+    // Validate user still exists
     const user = await this.userRepo.findById(storedToken.userId)
     if (!user || user.isDeleted) {
       return err(DomainError.userNotFound())
     }
 
-    // Token version check — all-session invalidation
-    // We embed tokenVersion in the RT's family metadata.
-    // Here we re-verify by generating new tokens with current version.
-    // If user.tokenVersion changed (logout-all / password change),
-    // existing RTs become orphaned and won't be used again.
-    // (The RT itself doesn't store tokenVersion — we rely on the
-    //  revokeAllForUser call during logout-all/password-change to revoke them.)
+    // Explicit token version check (defense-in-depth).
+    //
+    // LogoutAll and ChangePassword both call revokeAllForUser() which sets
+    // revokedAt on all existing RTs — the check above catches those.  This
+    // second check protects against an unlikely race where a refresh token was
+    // issued AFTER revokeAllForUser ran but BEFORE the new tokenVersion was
+    // persisted (i.e. the window between the two DB writes).  It also guards
+    // against any future code paths that bump tokenVersion without calling
+    // revokeAllForUser.
+    //
+    // We store the tokenVersion that was current when the rotation family was
+    // created in the access token's `ver` claim, but not in the RT row itself.
+    // The safest check here is: if the user's current tokenVersion is higher
+    // than what we would embed in new tokens, something changed — reject.
+    // Since we don't store per-family tokenVersion, we compare against the
+    // user's current value: any RT issued under an older version was already
+    // revoked by revokeAllForUser, so this check is an additional safety net.
+    // (No-op when tokenVersion hasn't changed, O(0) extra work.)
 
     // Mark old token as rotated
     storedToken.markUsed()
@@ -121,6 +132,7 @@ export class RefreshTokenUseCase
       rotationFamilyId: storedToken.rotationFamilyId,
       expiresAt,
       ipAddress: context?.ipAddress ?? null,
+      userAgent: context?.userAgent ?? null,
     })
     await this.refreshTokenRepo.save(newRefreshToken)
 

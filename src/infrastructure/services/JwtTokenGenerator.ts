@@ -70,6 +70,7 @@ export class JwtTokenGenerator implements ITokenGenerationService {
     const accessToken = await new SignJWT({
       uid: params.userId,
       ver: params.tokenVersion,
+      sid: params.rotationFamilyId,
       scope: 'openid profile email',
     })
       .setProtectedHeader({ alg: 'RS256' })
@@ -124,6 +125,7 @@ export class JwtTokenGenerator implements ITokenGenerationService {
       exp: payload.exp as number,
       uid: payload['uid'] as string,
       ver: payload['ver'] as number,
+      sid: payload['sid'] as string,
       scope: payload['scope'] as string,
     }
   }

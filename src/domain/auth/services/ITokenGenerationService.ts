@@ -17,6 +17,12 @@ export interface AccessTokenClaims {
   uid: string
   /** Token version (matches user.token_version for all-session invalidation) */
   ver: number
+  /**
+   * Session ID — the rotation family ID that ties this access token to a
+   * specific login session.  Used by authenticate middleware to detect
+   * per-session revocation without a DB lookup.
+   */
+  sid: string
   /** Scopes granted */
   scope: string
 }
@@ -25,6 +31,7 @@ export interface ITokenGenerationService {
   generateTokenPair(params: {
     userId: string
     tokenVersion: number
+    /** Rotation family ID — becomes the `sid` claim in the access token */
     rotationFamilyId: string
     deviceId?: string | null
   }): Promise<TokenPair>

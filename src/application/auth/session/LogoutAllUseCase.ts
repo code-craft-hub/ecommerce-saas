@@ -43,17 +43,28 @@ export class LogoutAllUseCase
       input.userId,
     )
 
-    // 1. Increment token_version — INSTANTLY invalidates ALL JWTs in flight
+    // 1. Increment token_version — used by middleware to reject in-flight tokens
     user.revokeAllSessions()
     await this.userRepo.update(user)
 
-    // 2. Revoke all refresh tokens in DB
+    // 2. Cache the new minimum valid version in Redis for the access-token
+    //    lifetime window.  Middleware checks ver ≥ minVersion on every request.
+    //    TTL = max access token lifetime so the key auto-expires once all
+    //    previously issued tokens have naturally expired.
+    const atTtlSeconds = Number(process.env.ACCESS_TOKEN_EXPIRY_SECONDS ?? 900)
+    await this.sessionCache.setMinTokenVersion(
+      input.userId,
+      user.tokenVersion,
+      atTtlSeconds,
+    )
+
+    // 3. Revoke all refresh tokens in DB
     await this.refreshTokenRepo.revokeAllForUser(input.userId)
 
-    // 3. Clear Redis session cache for user
+    // 4. Clear Redis session cache for user
     await this.sessionCache.clearUserSessions(input.userId)
 
-    // 4. Denylist current access token too (defense-in-depth)
+    // 5. Denylist current access token too (defense-in-depth for current session)
     const remainingTtl = Math.max(
       0,
       Math.floor(input.currentAccessTokenExp - Date.now() / 1000),

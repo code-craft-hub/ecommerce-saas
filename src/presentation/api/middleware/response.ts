@@ -79,6 +79,40 @@ export function setRefreshTokenCookie(
   })
 }
 
+/**
+ * Set httpOnly access token cookie.
+ *
+ * SameSite=Lax (not Strict) is required here: the OAuth callback is a
+ * cross-site redirect from Google, so Strict would block cookie delivery.
+ * The short TTL (access token lifetime) limits exposure window.
+ */
+export function setAccessTokenCookie(
+  response: Response,
+  accessToken: string,
+  expiresAt: Date,
+): Response {
+  const isProduction = process.env.NODE_ENV === 'production'
+  const cookieValue = [
+    `access_token=${accessToken}`,
+    `HttpOnly`,
+    isProduction ? `Secure` : '',
+    `SameSite=Lax`,
+    `Path=/`,
+    `Expires=${expiresAt.toUTCString()}`,
+  ]
+    .filter(Boolean)
+    .join('; ')
+
+  const headers = new Headers(response.headers)
+  // Append rather than set — preserve the refresh_token cookie if already added
+  headers.append('Set-Cookie', cookieValue)
+
+  return new Response(response.body, {
+    status: response.status,
+    headers,
+  })
+}
+
 export function clearRefreshTokenCookie(): string {
   return [
     'refresh_token=',

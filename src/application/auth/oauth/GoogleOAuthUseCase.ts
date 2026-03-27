@@ -47,18 +47,33 @@ export class GoogleOAuthUseCase
     input: GoogleCallbackRequest,
     context?: { ipAddress?: string; userAgent?: string },
   ): Promise<Result<GoogleOAuthResult>> {
-    // 1. Verify CSRF state token
-    const storedState = await this.sessionCache.consumeOAuthState(input.state)
-    if (!storedState) {
+    // 1. Verify CSRF state + retrieve PKCE verifier (atomic get-and-delete)
+    const storedDataStr = await this.sessionCache.consumeOAuthState(input.state)
+    if (!storedDataStr) {
       return err(DomainError.csrfValidationFailed())
     }
 
-    // 2. Exchange code for profile
+    let codeVerifier: string
+    try {
+      const storedData = JSON.parse(storedDataStr) as {
+        state: string
+        codeVerifier: string
+      }
+      if (storedData.state !== input.state) {
+        return err(DomainError.csrfValidationFailed())
+      }
+      codeVerifier = storedData.codeVerifier
+    } catch {
+      return err(DomainError.csrfValidationFailed())
+    }
+
+    // 2. Exchange code for profile (PKCE verifier sent to Google for validation)
     let profile
     try {
       profile = await this.googleClient.exchangeCodeForProfile({
         code: input.code,
         redirectUri: input.redirectUri,
+        codeVerifier,
       })
     } catch (e) {
       return err(
@@ -158,6 +173,7 @@ export class GoogleOAuthUseCase
       rotationFamilyId: familyId,
       expiresAt,
       ipAddress: context?.ipAddress ?? null,
+      userAgent: context?.userAgent ?? null,
     })
     await this.refreshTokenRepo.save(refreshToken)
 

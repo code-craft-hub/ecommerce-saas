@@ -1,4 +1,4 @@
-import { eq, and, isNull, lt, count } from 'drizzle-orm'
+import { eq, and, isNull, lt, gt, count } from 'drizzle-orm'
 import type { DB } from '@/infrastructure/persistence/db'
 import { refreshTokens, rotationFamilies } from '@/infrastructure/persistence/schema'
 import type { IRefreshTokenRepository } from '@/domain/auth/repositories/IRefreshTokenRepository'
@@ -20,6 +20,7 @@ function toDomain(row: RefreshTokenRow): RefreshToken {
     deviceId: row.deviceId ?? null,
     ipAddress: row.ipAddress ?? null,
     userAgentHash: row.userAgentHash ?? null,
+    userAgent: row.userAgent ?? null,
   })
 }
 
@@ -91,6 +92,7 @@ export class DrizzleRefreshTokenRepository
       deviceId: token.deviceId ?? undefined,
       ipAddress: token.ipAddress ?? undefined,
       userAgentHash: token.userAgentHash ?? undefined,
+      userAgent: token.userAgent ?? undefined,
     })
   }
 
@@ -147,6 +149,7 @@ export class DrizzleRefreshTokenRepository
           eq(refreshTokens.userId, userId),
           isNull(refreshTokens.revokedAt),
           isNull(refreshTokens.rotatedAt),
+          gt(refreshTokens.expiresAt, now),
         ),
       )
     return Number(rows[0]?.count ?? 0)

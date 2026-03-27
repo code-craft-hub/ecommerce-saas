@@ -132,6 +132,8 @@ export const refreshTokens = pgTable(
     ipAddress: varchar('ip_address', { length: 45 }),
     /** SHA-256(user_agent) — detect device switches */
     userAgentHash: varchar('user_agent_hash', { length: 64 }),
+    /** Raw user agent string (truncated to 512 chars) — for session list display */
+    userAgent: varchar('user_agent', { length: 512 }),
   },
   (t) => [
     uniqueIndex('refresh_tokens_hash_idx').on(t.tokenHash),

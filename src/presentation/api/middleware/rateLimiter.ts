@@ -3,11 +3,15 @@ import { getContainer } from '@/infrastructure/container'
 /**
  * Token-bucket rate limiter backed by Redis.
  *
- * Policies:
- * - Login: 5 attempts / minute per IP+email combo
- * - Password reset: 3 requests / hour per email
- * - Signup: 10 requests / minute per IP
- * - Refresh: 30 requests / minute per userId
+ * All counters are incremented atomically via a Lua script — no TOCTOU race.
+ *
+ * Policies (per RFC 9700 §2.2 + OWASP guidance):
+ * - login:           5 attempts  / 60 s   per IP+email
+ * - signup:         10 requests  / 60 s   per IP
+ * - password_reset:  3 requests  / 3600 s per email
+ * - refresh:        30 requests  / 60 s   per userId
+ * - oauth:          10 requests  / 60 s   per IP
+ * - verify_email:   10 requests  / 3600 s per email
  */
 
 interface RateLimitResult {
@@ -17,11 +21,12 @@ interface RateLimitResult {
 }
 
 const POLICIES = {
-  login: { limit: 5, windowSeconds: 60 },
-  signup: { limit: 10, windowSeconds: 60 },
-  password_reset: { limit: 3, windowSeconds: 3600 },
-  refresh: { limit: 30, windowSeconds: 60 },
-  oauth: { limit: 10, windowSeconds: 60 },
+  login:          { limit: 5,  windowSeconds: 60   },
+  signup:         { limit: 10, windowSeconds: 60   },
+  password_reset: { limit: 3,  windowSeconds: 3600 },
+  refresh:        { limit: 30, windowSeconds: 60   },
+  oauth:          { limit: 10, windowSeconds: 60   },
+  verify_email:   { limit: 10, windowSeconds: 3600 },
 } as const
 
 type RateLimitPolicy = keyof typeof POLICIES
@@ -33,27 +38,16 @@ export async function checkRateLimit(
   const { sessionCache } = getContainer()
   const { limit, windowSeconds } = POLICIES[policy]
 
-  const key = `ratelimit:${policy}:${identifier}`
-  const now = Date.now()
-  const windowMs = windowSeconds * 1000
-  const resetAt = new Date(Math.ceil(now / windowMs) * windowMs)
-
-  // Retrieve current count
-  const current = await sessionCache.getVerificationCode(key)
-  const count = current ? parseInt(current, 10) : 0
-
-  if (count >= limit) {
-    return { allowed: false, remaining: 0, resetAt }
-  }
-
-  // Increment counter
-  const newCount = count + 1
-  const ttl = Math.ceil((resetAt.getTime() - now) / 1000)
-  await sessionCache.setVerificationCode(key, String(newCount), ttl)
+  const key = `${policy}:${identifier}`
+  const { count, isAllowed, resetAt } = await sessionCache.incrementRateLimit(
+    key,
+    windowSeconds,
+    limit,
+  )
 
   return {
-    allowed: true,
-    remaining: limit - newCount,
+    allowed: isAllowed,
+    remaining: Math.max(0, limit - count),
     resetAt,
   }
 }

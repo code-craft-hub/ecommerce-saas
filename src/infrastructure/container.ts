@@ -37,6 +37,9 @@ import { CheckPermissionUseCase } from '@/application/authz/usecases/CheckPermis
 import { AssignRoleUseCase } from '@/application/authz/usecases/AssignRoleUseCase'
 import { RevokeRoleUseCase } from '@/application/authz/usecases/RevokeRoleUseCase'
 
+import { ResolveIdentityUseCase } from '@/application/auth/auth-methods/ResolveIdentityUseCase'
+import { GetAvailableAuthMethodsUseCase } from '@/application/auth/auth-methods/GetAvailableAuthMethodsUseCase'
+import { UnlinkOAuthAccountUseCase } from '@/application/auth/oauth/UnlinkOAuthAccountUseCase'
 import { SignupUseCase } from '@/application/auth/signup/SignupUseCase'
 import { LoginUseCase } from '@/application/auth/login/LoginUseCase'
 import { LogoutUseCase } from '@/application/auth/logout/LogoutUseCase'
@@ -278,6 +281,20 @@ function buildContainer() {
 
   const listSessionsUseCase = new ListSessionsUseCase(refreshTokenRepo)
 
+  const resolveIdentityUseCase = new ResolveIdentityUseCase(userRepo, oauthAccountRepo)
+
+  const getAvailableAuthMethodsUseCase = new GetAvailableAuthMethodsUseCase(
+    userRepo,
+    oauthAccountRepo,
+  )
+
+  const unlinkOAuthAccountUseCase = new UnlinkOAuthAccountUseCase(
+    userRepo,
+    oauthAccountRepo,
+    auditLogRepo,
+    eventBus,
+  )
+
   const verifyEmailUseCase = new VerifyEmailUseCase(
     userRepo,
     tokenService,
@@ -311,6 +328,9 @@ function buildContainer() {
     revokeSessionUseCase,
     listSessionsUseCase,
     verifyEmailUseCase,
+    resolveIdentityUseCase,
+    getAvailableAuthMethodsUseCase,
+    unlinkOAuthAccountUseCase,
     // Services (for middleware use)
     tokenService,
     sessionCache,

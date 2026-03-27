@@ -1,4 +1,4 @@
-├── .env.example
+├── .env
 ├── .gitignore
 ├── AGENTS.md
 ├── CLAUDE.md
@@ -18,21 +18,47 @@
 │   └── window.svg
 ├── README.md
 ├── scripts
+│   ├── rewrite-imports.mjs
 │   └── tree.js
 ├── src
 │   ├── __tests__
 │   │   ├── application
 │   │   │   ├── RefreshTokenUseCase.test.ts
 │   │   │   └── SignupUseCase.test.ts
+│   │   ├── authz
+│   │   │   ├── CheckPermissionUseCase.test.ts
+│   │   │   └── PolicyDecisionPoint.test.ts
 │   │   ├── domain
 │   │   │   ├── Email.test.ts
 │   │   │   ├── Password.test.ts
+│   │   │   ├── Permission.test.ts
 │   │   │   ├── RefreshToken.test.ts
 │   │   │   ├── Result.test.ts
 │   │   │   └── User.test.ts
 │   │   └── infrastructure
 │   │       └── tokenUtils.test.ts
 │   ├── app
+│   │   ├── (auth)
+│   │   │   ├── forgot-password
+│   │   │   │   ├── ForgotPasswordForm.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   ├── login
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   └── page.tsx
+│   │   │   ├── reset-password
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── ResetPasswordForm.tsx
+│   │   │   ├── signup
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── SignupForm.tsx
+│   │   │   └── verify-email
+│   │   │       └── page.tsx
+│   │   ├── (dashboard)
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── actions
+│   │   │   └── auth.ts
 │   │   ├── api
 │   │   │   └── auth
 │   │   │       ├── change-password
@@ -96,6 +122,11 @@
 │   │   │   │   └── SignupUseCase.ts
 │   │   │   └── verify
 │   │   │       └── VerifyEmailUseCase.ts
+│   │   ├── authz
+│   │   │   └── usecases
+│   │   │       ├── AssignRoleUseCase.ts
+│   │   │       ├── CheckPermissionUseCase.ts
+│   │   │       └── RevokeRoleUseCase.ts
 │   │   └── shared
 │   │       └── EventBus.ts
 │   ├── domain
@@ -126,12 +157,44 @@
 │   │   │       ├── OAuthProfile.ts
 │   │   │       ├── Password.ts
 │   │   │       └── TokenPair.ts
+│   │   ├── authz
+│   │   │   ├── repositories
+│   │   │   │   ├── IResourceRelationRepository.ts
+│   │   │   │   ├── IRoleRepository.ts
+│   │   │   │   └── IUserRoleRepository.ts
+│   │   │   ├── services
+│   │   │   │   ├── IAuthorizationService.ts
+│   │   │   │   └── IPolicyEvaluator.ts
+│   │   │   ├── types
+│   │   │   │   └── AuthorizationDecision.ts
+│   │   │   └── value-objects
+│   │   │       ├── AuthorizationContext.ts
+│   │   │       ├── Permission.ts
+│   │   │       └── Role.ts
 │   │   └── shared
 │   │       ├── AggregateRoot.ts
 │   │       ├── DomainEvent.ts
 │   │       ├── IUseCase.ts
 │   │       └── Result.ts
 │   ├── infrastructure
+│   │   ├── authz
+│   │   │   ├── pap
+│   │   │   │   └── PolicyAdministrationPoint.ts
+│   │   │   ├── pdp
+│   │   │   │   └── PolicyDecisionPoint.ts
+│   │   │   ├── pep
+│   │   │   │   └── PolicyEnforcementPoint.ts
+│   │   │   ├── pip
+│   │   │   │   └── PolicyInformationPoint.ts
+│   │   │   ├── policies
+│   │   │   │   ├── AbacPolicy.ts
+│   │   │   │   ├── PbacPolicy.ts
+│   │   │   │   ├── RbacPolicy.ts
+│   │   │   │   └── RebacPolicy.ts
+│   │   │   └── repositories
+│   │   │       ├── DrizzleResourceRelationRepository.ts
+│   │   │       ├── DrizzleRoleRepository.ts
+│   │   │       └── DrizzleUserRoleRepository.ts
 │   │   ├── container.ts
 │   │   ├── external
 │   │   │   ├── cache
@@ -155,6 +218,7 @@
 │       └── api
 │           └── middleware
 │               ├── authenticate.ts
+│               ├── authorize.ts
 │               ├── rateLimiter.ts
 │               └── response.ts
 ├── tsconfig.json

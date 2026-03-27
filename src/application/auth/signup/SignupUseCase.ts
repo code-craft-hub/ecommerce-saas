@@ -122,6 +122,7 @@ export class SignupUseCase
       rotationFamilyId: familyId,
       expiresAt,
       ipAddress: context?.ipAddress ?? null,
+      userAgent: context?.userAgent ?? null,
     })
     await this.refreshTokenRepo.save(refreshToken)
 

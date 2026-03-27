@@ -1,4 +1,4 @@
-import { importJWK, jwtVerify, createRemoteJWKSet } from 'jose'
+import { jwtVerify, createRemoteJWKSet } from 'jose'
 import type { IGoogleOAuthClient, GoogleAuthorizationParams } from '@/domain/auth/services/IGoogleOAuthClient'
 import type { OAuthProfile } from '@/domain/auth/value-objects/OAuthProfile'
 import { OAuthProfile as OAuthProfileVO } from '@/domain/auth/value-objects/OAuthProfile'
@@ -10,7 +10,12 @@ const GOOGLE_ISSUER = 'https://accounts.google.com'
 
 /**
  * Google OAuth 2.0 client.
- * Uses PKCE-ready authorization URL builder and backend-only code exchange.
+ *
+ * PKCE (RFC 9700 §2.1.1):
+ * - code_challenge / code_challenge_method=S256 are added to the auth URL
+ * - code_verifier is sent with the token exchange request
+ * - Google verifies that SHA-256(code_verifier) == code_challenge
+ *
  * ID token signature is verified using Google's JWKS endpoint.
  */
 export class GoogleOAuthClient implements IGoogleOAuthClient {
@@ -31,6 +36,8 @@ export class GoogleOAuthClient implements IGoogleOAuthClient {
       scope: 'openid email profile',
       state: params.state,
       access_type: 'offline',
+      code_challenge: params.codeChallenge,
+      code_challenge_method: params.codeChallengeMethod,
       ...(params.prompt ? { prompt: params.prompt } : {}),
     })
     return `${GOOGLE_AUTH_URL}?${searchParams.toString()}`
@@ -39,6 +46,7 @@ export class GoogleOAuthClient implements IGoogleOAuthClient {
   async exchangeCodeForProfile(params: {
     code: string
     redirectUri: string
+    codeVerifier: string
   }): Promise<OAuthProfile> {
     // Exchange authorization code for tokens (backend-only — never expose code to client)
     const tokenResponse = await fetch(GOOGLE_TOKEN_URL, {
@@ -50,6 +58,8 @@ export class GoogleOAuthClient implements IGoogleOAuthClient {
         client_secret: this.config.clientSecret,
         redirect_uri: params.redirectUri,
         grant_type: 'authorization_code',
+        // PKCE verifier — Google rejects if SHA-256(verifier) ≠ stored challenge
+        code_verifier: params.codeVerifier,
       }),
     })
 

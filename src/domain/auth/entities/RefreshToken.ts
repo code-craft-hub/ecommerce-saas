@@ -16,6 +16,8 @@ export interface RefreshTokenProps {
   deviceId: string | null
   ipAddress: string | null
   userAgentHash: string | null
+  /** Raw user agent (truncated) — for session list display only */
+  userAgent: string | null
 }
 
 export class RefreshToken {
@@ -34,6 +36,7 @@ export class RefreshToken {
     deviceId?: string | null
     ipAddress?: string | null
     userAgentHash?: string | null
+    userAgent?: string | null
   }): RefreshToken {
     return new RefreshToken({
       id: params.id,
@@ -48,6 +51,7 @@ export class RefreshToken {
       deviceId: params.deviceId ?? null,
       ipAddress: params.ipAddress ?? null,
       userAgentHash: params.userAgentHash ?? null,
+      userAgent: params.userAgent ? params.userAgent.slice(0, 512) : null,
     })
   }
 
@@ -86,6 +90,9 @@ export class RefreshToken {
   }
   get userAgentHash(): string | null {
     return this.props.userAgentHash
+  }
+  get userAgent(): string | null {
+    return this.props.userAgent
   }
 
   get isValid(): boolean {

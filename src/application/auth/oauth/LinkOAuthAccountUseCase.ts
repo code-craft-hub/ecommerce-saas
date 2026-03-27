@@ -38,9 +38,23 @@ export class LinkOAuthAccountUseCase
     input: LinkOAuthAccountRequest,
     context?: { ipAddress?: string },
   ): Promise<Result<LinkOAuthAccountResponse>> {
-    // Verify CSRF state
-    const storedState = await this.sessionCache.consumeOAuthState(input.state)
-    if (!storedState) {
+    // Verify CSRF state + retrieve PKCE verifier (atomic get-and-delete)
+    const storedDataStr = await this.sessionCache.consumeOAuthState(input.state)
+    if (!storedDataStr) {
+      return err(DomainError.csrfValidationFailed())
+    }
+
+    let codeVerifier: string
+    try {
+      const storedData = JSON.parse(storedDataStr) as {
+        state: string
+        codeVerifier: string
+      }
+      if (storedData.state !== input.state) {
+        return err(DomainError.csrfValidationFailed())
+      }
+      codeVerifier = storedData.codeVerifier
+    } catch {
       return err(DomainError.csrfValidationFailed())
     }
 
@@ -49,12 +63,13 @@ export class LinkOAuthAccountUseCase
       return err(DomainError.userNotFound())
     }
 
-    // Exchange code
+    // Exchange code (PKCE verifier sent to Google for validation)
     let profile
     try {
       profile = await this.googleClient.exchangeCodeForProfile({
         code: input.code,
         redirectUri: input.redirectUri,
+        codeVerifier,
       })
     } catch {
       return err(
