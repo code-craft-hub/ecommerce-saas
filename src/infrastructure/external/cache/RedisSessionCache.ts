@@ -56,8 +56,12 @@ export class RedisSessionCache implements ISessionCache {
   }
 
   async isTokenDenylisted(jti: string): Promise<boolean> {
-    const result = await this.client.exists(`${DENYLIST_PREFIX}${jti}`)
-    return result === 1
+    try {
+      const result = await this.client.exists(`${DENYLIST_PREFIX}${jti}`)
+      return result === 1
+    } catch {
+      return false // fail open: assume valid when Redis is unavailable
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -73,10 +77,14 @@ export class RedisSessionCache implements ISessionCache {
   }
 
   async isSessionRevoked(familyId: string): Promise<boolean> {
-    const result = await this.client.exists(
-      `${REVOKED_SESSION_PREFIX}${familyId}`,
-    )
-    return result === 1
+    try {
+      const result = await this.client.exists(
+        `${REVOKED_SESSION_PREFIX}${familyId}`,
+      )
+      return result === 1
+    } catch {
+      return false // fail open: assume valid when Redis is unavailable
+    }
   }
 
   // ---------------------------------------------------------------------------
